@@ -10,7 +10,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.persistence.EntityManager;
 
-import static util.Util.mysql;
+import static util.Util.*;
 
 public class RegistreerDialog extends AbstractDialog {
     MenuBuilder menuBuilder;
@@ -31,7 +31,7 @@ public class RegistreerDialog extends AbstractDialog {
     }
 
     @Override
-    public void load() {
+    public void load()  {
         String email = askEmail();
         String password = askPassword(email);
         try {
@@ -40,11 +40,15 @@ public class RegistreerDialog extends AbstractDialog {
         }catch (InvalidPasswordException ex){
             System.out.println(ex.getCause());
             System.out.println(ex.getMessage());
-            System.out.println("Gebruiker kan niet worden gecreeërd met die wachtwoord. Probeer opnieuw of neem contact op met systeembeheerder");
+            System.out.println("Gebruiker kan niet worden gecreeërd met dit wachtwoord. Probeer opnieuw of neem contact op met systeembeheerder");
             load();
-        }catch (InvalidEmailException ex) {
+        }catch (javax.persistence.RollbackException ex2){
+            System.out.println("Er bestaat al een account met email: "+email);
+            System.out.println("probeer opnieuw: ");
+            load();
         }
 
+        //TODO: what next?
     }
 
     private String askEmail(){
@@ -90,30 +94,13 @@ public class RegistreerDialog extends AbstractDialog {
     public void load(Gebruiker gebruiker) {
         throw new NotImplementedException();
     }
-    //TODO: this is duplicate with 'Gebruiker.class'
-    public boolean isValidEmail(String email) {
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-        return email.matches(regex);
-    }
 
     private void terug() {
         terug.load();
     }
 
-    //TODO: this method is duplicate with 'Gebruiker.class'
-    public boolean checkPassword(String password, String email) {
-        if (password.length() < 9
-                || password.equals(email)
-                || containsNONumber(password)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 
-    //TODO: this method is duplicate with 'Gebruiker.class'
-    public boolean containsNONumber(String checked) {
-        return !checked.matches(".*\\d.*");
-    }
+
+
 }
 

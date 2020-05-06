@@ -24,11 +24,13 @@ import javax.xml.bind.annotation.XmlType;
 @Embeddable
 public class Address
 {
+
+
     @XmlElement(name = "street")
     private String street;
 
     @XmlElement(name = "houseNumber")
-    private int houseNumber;
+    private Integer houseNumber;
 
     @XmlElement(name = "postalCode")
     private String postalCode;

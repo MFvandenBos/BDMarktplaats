@@ -16,7 +16,6 @@ public abstract class AbstractMenu {
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Kies een optie (nrs)");
         int o = Integer.parseInt(scanner.nextLine());  // Read user input
-        scanner.close();
         return o;
     }
 

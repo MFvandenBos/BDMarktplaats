@@ -11,7 +11,6 @@ public abstract class AbstractDialog extends AbstractMenu {
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         System.out.println(vraag);
         int o = Integer.parseInt(scanner.nextLine());  // Read user input
-        scanner.close();
         return o;
     }
 
@@ -20,7 +19,6 @@ public abstract class AbstractDialog extends AbstractMenu {
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         System.out.println(vraag);
         String o = scanner.nextLine();  // Read user input
-        scanner.close();
         return o;
     }
 
