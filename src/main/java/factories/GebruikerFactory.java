@@ -3,6 +3,7 @@ package factories;
 import com.google.gson.JsonObject;
 import domain.Bezoeker;
 import domain.Gebruiker;
+import domain.exceptions.InvalidEmailException;
 import domain.exceptions.InvalidPasswordException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -73,7 +74,18 @@ public class GebruikerFactory extends AbstractFactory {
         return true;
     }
 
-    public Gebruiker create(GebruikerType gebruikerType, String email, String Password) throws InvalidPasswordException {
+    public Gebruiker create(GebruikerType gebruikerType, String email) throws InvalidEmailException {
+        switch (gebruikerType){
+            case BEZOEKER:
+                return createBezoeker(email);
+            case MEDEWERKER:
+            case BEHEERDER:
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    public Gebruiker create(GebruikerType gebruikerType, String email, String Password) throws InvalidPasswordException, InvalidEmailException {
         switch (gebruikerType){
             case BEZOEKER:
                 return createBezoeker(email, Password);
@@ -84,9 +96,13 @@ public class GebruikerFactory extends AbstractFactory {
         }
     }
 
-    private Gebruiker createBezoeker(String email, String password) throws InvalidPasswordException {
-
+    private Gebruiker createBezoeker(String email, String password) throws InvalidPasswordException, InvalidEmailException {
         return new Bezoeker(email, password, false, true, false, false, null);
+    }
+
+    private Gebruiker createBezoeker(String email) throws InvalidEmailException {
+        return new Bezoeker(email, false, true, false, false, null);
+
     }
 
     private void createBeheerder(){}

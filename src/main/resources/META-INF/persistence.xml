@@ -14,7 +14,7 @@
             <property name="javax.persistence.jdbc.password" value="DeltaTwingoPoeder#20"/>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
             <!--property name="hibernate.hbm2ddl.auto" value="update"/-->
-            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format.sql" value="true"/>
             <!--<property name="hibernate.connection.autocommit" value="false"/>-->
         </properties>

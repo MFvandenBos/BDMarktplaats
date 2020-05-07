@@ -14,25 +14,35 @@
                 <!-- Rolling once a day -->
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <!-- Rolling based on size -->
-                <SizeBasedTriggeringPolicy size="50" />
+                <SizeBasedTriggeringPolicy size="2 KB" />
             </Policies>
         </RollingFile>
+
+        <!-- append is false for test purposes so the logfiles are automatically overwritten. Don't use this on production. -->
+        <RollingFile name="hibernateFile" append="false" fileName="logs/error.log" filePattern="logs/error-%d{yyyy-MM-dd}.%i.log">
+            <PatternLayout pattern="${logpattern}"/>
+            <Policies>
+                <!-- Rolling once a day -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- Rolling based on size -->
+                <SizeBasedTriggeringPolicy size="2 KB"/>
+            </Policies>
+        </RollingFile>
+
+
     </Appenders>
     <Loggers>
         <Logger name="micha.logging" level="debug" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Root level="debug">
-            <AppenderRef ref="LogToConsole"/>
+
+        <Logger name="org.hibernate" level="INFO">
+            <AppenderRef ref="hibernateFile"/>
+        </Logger>
+        <Root level="DEBUG">
+            <AppenderRef ref="fileLogger"/>
         </Root>
+
     </Loggers>
 
-    <Loggers>
-        <Logger name="dao" additivity="true">
-            <appender-ref ref="fileLogger" level="debug"/>
-        </Logger>
-        <Root level="info">
-            <AppenderRef ref="LogToConsole"/>
-        </Root>
-    </Loggers>
 </Configuration>

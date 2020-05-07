@@ -1,21 +1,26 @@
 package frontend.console;
 
+import controllers.MainController;
 import domain.Gebruiker;
-
-import java.util.Scanner;
+import util.ScannerWrapper;
 
 public abstract class AbstractMenu {
 
     abstract public void load();
 
-    abstract public void load(Gebruiker gebruiker);
+    abstract public void load(String ... messages);
 
+    abstract public int laatGebruikerKiezen(String ... keuzes);
+
+    abstract public void toonMenuHeader(String ... messages);
+
+    abstract public boolean bevestigOpdracht(String bevestigvraag);
 
     //TODO: mock this, move to a menu util class
     protected int optieKiezer(){
-        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
+        ScannerWrapper scanner = MainController.getInstance().getScanner();  // Get a Scanner object
         System.out.println("Kies een optie (nrs)");
-        int o = Integer.parseInt(scanner.nextLine());  // Read user input
+        int o = Integer.parseInt(scanner.nextLine());  // Read user input from System in
         return o;
     }
 

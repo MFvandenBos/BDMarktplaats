@@ -1,15 +1,22 @@
-package frontend.console;
+package controllers;
 
 import domain.Gebruiker;
 import factories.GebruikerType;
+import frontend.console.AbstractMenu;
+import frontend.console.MenuBuilder;
+import frontend.console.RegistreerDialog;
+import frontend.console.StandaardMenu;
 
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
-public class HoofdMenuNietIngelogd extends AbstractMenu{
+public class HoofdMenuNietIngelogdController extends AbstractController{
 
     //Warning: order of strings is hardcoded in 'functionSwitch'
     String[] functionList = new String[]{"login","registreer nieuwe gebruiker", "exit"};
+
+    public HoofdMenuNietIngelogdController(){
+        super.currentView = new StandaardMenu();
+    }
 
     @Override
     public void load(Gebruiker gebruiker) {
@@ -17,8 +24,8 @@ public class HoofdMenuNietIngelogd extends AbstractMenu{
     }
 
     public void load(){
-        MenuBuilder menuBuilder = new MenuBuilder();
-        loadWithHeader(menuBuilder.createMenuHeader("BD Marktplaats", "Hoofdmenu"));
+        currentView.load("BDMarktplaats", "Hoofdmenu");
+
     }
 
     //TODO: this requires a mock to test
@@ -41,7 +48,7 @@ public class HoofdMenuNietIngelogd extends AbstractMenu{
                 LoginMenu loginMenu = new LoginMenu();
                 loginMenu.load(); break;
             case 2:
-                RegistreerDialog registreerDialog = new RegistreerDialog(GebruikerType.BEZOEKER, this);
+                RegistreerDialog registreerDialog = new RegistreerDialog();
                 registreerDialog.load(); break;
             case 3:
                 exitProgram();
@@ -53,13 +60,10 @@ public class HoofdMenuNietIngelogd extends AbstractMenu{
     }
 
     private void exitProgram(){
-        int input = JOptionPane.showConfirmDialog(null, "Wilt u het programma beëindigen? ?");
-        // 0=yes, 1=no, 2=cancel
-        switch (input){
-            case 0:
-                System.exit(0); break;
-            default:
-                break;
+        if(currentView.bevestigOpdracht( "Wilt u het programma beëindigen? ?")){
+            System.exit(0);
+        }else{
+            load();
         }
 
     }

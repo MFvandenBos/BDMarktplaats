@@ -1,6 +1,7 @@
-package frontend.console;
+package controllers;
 
 import domain.Gebruiker;
+import frontend.console.AbstractMenu;
 
 public class LoginMenu extends AbstractMenu {
 

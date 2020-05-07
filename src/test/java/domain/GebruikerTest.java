@@ -1,5 +1,6 @@
 package domain;
 
+import domain.exceptions.InvalidEmailException;
 import domain.exceptions.InvalidPasswordException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,20 +35,9 @@ class GebruikerTest {
         InvalidPasswordException e = Assertions.assertThrows(InvalidPasswordException.class, () -> testGebruiker.setPassword("lang_zonder_nummer"));
     }
     @Test
-    void setPasswordThrowsAtEmailPassword() {
+    void setPasswordThrowsAtEmailPassword() throws InvalidEmailException {
         testGebruiker.setEmailAdress("voorbeeldemail@gmail.com");
         InvalidPasswordException e = Assertions.assertThrows(InvalidPasswordException.class, () -> testGebruiker.setPassword("voorbeeldemail@gmail.com"));
-    }
-
-    @Test
-    void containsNoNumberTest(){
-        ArrayList<Integer> target = new ArrayList<>();
-        assertThat(testGebruiker.containsNONumber("12344HHahdf")).isEqualTo(false);
-        assertThat(testGebruiker.containsNONumber("g12344HHahdf")).isEqualTo(false);
-        assertThat(testGebruiker.containsNONumber("")).isEqualTo(true);
-        assertThat(testGebruiker.containsNONumber("hoi")).isEqualTo(true);
-        assertThat(testGebruiker.containsNONumber("water")).isEqualTo(true);
-        assertThat(testGebruiker.containsNONumber("1i")).isEqualTo(false);
     }
 
     @Test

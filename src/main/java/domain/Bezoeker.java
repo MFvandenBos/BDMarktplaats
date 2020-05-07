@@ -1,5 +1,6 @@
 package domain;
 
+import domain.exceptions.InvalidEmailException;
 import domain.exceptions.InvalidPasswordException;
 import domain.exceptions.NoKnownAddressException;
 
@@ -18,7 +19,20 @@ public class Bezoeker extends Gebruiker {
 
     public Bezoeker(){}
 
-    public Bezoeker(String email, String password, boolean thuisAfhalen, boolean magazijnAfhalen, boolean versturen, boolean versturenRembours, Address adres) throws InvalidPasswordException {
+    public Bezoeker(String email, boolean thuisAfhalen, boolean magazijnAfhalen, boolean versturen, boolean versturenRembours, Address adres) throws InvalidEmailException {
+        super(email);
+        this. versturenRembours = versturenRembours;
+        this.versturen = versturen;
+        this.magazijnAfhalen = magazijnAfhalen;
+        this.adres = adres;
+        if(adres == null){
+            this.thuisAfhalen = false;
+        }else{
+            this.thuisAfhalen = thuisAfhalen;
+        }
+    }
+
+    public Bezoeker(String email, String password, boolean thuisAfhalen, boolean magazijnAfhalen, boolean versturen, boolean versturenRembours, Address adres) throws InvalidPasswordException, InvalidEmailException {
         super(email, password);
         this. versturenRembours = versturenRembours;
         this.versturen = versturen;
@@ -29,7 +43,6 @@ public class Bezoeker extends Gebruiker {
         }else{
             this.thuisAfhalen = thuisAfhalen;
         }
-
     }
 
     public boolean isMagazijnAfhalen() {

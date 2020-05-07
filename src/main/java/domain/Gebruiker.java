@@ -12,6 +12,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import static util.Util.checkPassword;
+import static util.Util.isValidEmail;
+
 @Entity
 public class Gebruiker extends AbstractEntity {
 
@@ -35,30 +38,58 @@ public class Gebruiker extends AbstractEntity {
     @NotNull
     private byte[] password;
 
-
+    @NotNull
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    Portemonee portemonee;
 
     public Gebruiker(){};
 
-    public Gebruiker(String emailAdress, String password) throws InvalidPasswordException
-    {
-        setEmailAdress(emailAdress);
+    public Gebruiker(String emailAdress) throws InvalidEmailException {
+        init(emailAdress);
+        try {
+            setPassword("Aaaaaaaaaa9");
+        }catch (InvalidPasswordException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Gebruiker(String emailAdress, String password) throws InvalidPasswordException, InvalidEmailException {
+        init(emailAdress);
         setPassword(password);
+    }
+
+    private void init(String emailAdress) throws InvalidEmailException {
+        setEmailAdress(emailAdress);
         regelementAkkoord = false;
         actiefAccount = true;
+        Portemonee por = new Portemonee();
+        setPortemonee(por);
     }
 
     public String getEmailAdress() {
         return emailAdress;
     }
 
-    public void setEmailAdress(String emailAdress) {
-        //TODO: validate email adress.
+    public void setEmailAdress(String emailAdress) throws InvalidEmailException {
+        if(isValidEmail(emailAdress)){
+            this.emailAdress = emailAdress;
+        }else {
+            throw new InvalidEmailException();
+        }
 
-        this.emailAdress = emailAdress;
     }
 
     public long getId() {
         return id;
+    }
+
+    public Portemonee getPortemonee() {
+        return portemonee;
+    }
+
+    public void setPortemonee(Portemonee portemonee) {
+        this.portemonee = portemonee;
+        portemonee.setGebruiker(this);
     }
 
     public boolean containsNONumber(String checked){
@@ -66,10 +97,7 @@ public class Gebruiker extends AbstractEntity {
     }
 
     public void setPassword(String password) throws InvalidPasswordException {
-        if(password.length()<9
-                || password.equals(emailAdress)
-                || containsNONumber(password))
-        {
+        if(!checkPassword(password,this.emailAdress)) {
             throw new InvalidPasswordException();
         }
         this.password = encodePassword(password);
