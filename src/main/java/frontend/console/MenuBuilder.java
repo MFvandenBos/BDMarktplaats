@@ -18,7 +18,7 @@ public class MenuBuilder {
         if(messages.length> 0){
             full.append(starline(mwidth));
             for (String message : messages) {
-                full.append(messageline(message ,mwidth));
+                full.append(messageline(message ,mwidth, "*"));
             }
         }
         full.append(starline(mwidth));
@@ -36,27 +36,48 @@ public class MenuBuilder {
     }
 
     private String starline(int linelenght){
-        StringBuilder line = new StringBuilder("");
-        for (int j =0; j<linelenght; j++ ){
-            line.append("*");
-        }
-        line.append(System.lineSeparator());
-        return  line.toString();
+        return borderline(linelenght, "*");
+//        StringBuilder line = new StringBuilder("");
+//        for (int j =0; j<linelenght; j++ ){
+//            line.append("*");
+//        }
+//        line.append(System.lineSeparator());
+//        return  line.toString();
     }
 
-    private String messageline(String message, int linelenght){
+    private String messageline(String message, int linelenght, String border){
+        if(border.length()>2){
+            border = "x";
+        }
+        int el = linelenght-border.length()-message.length();
+
         StringBuilder line = new StringBuilder("*");
-        int whitelenght = ((linelenght-2-message.length())%2 == 0) ? (linelenght-2-message.length())/2 : (linelenght-2-message.length())/2+1;
+        int whitelenght = (el%2 == 0) ? (el)/2 : (el)/2+1;
         for(int j=0; j<whitelenght; j++){
             line.append(" ");
         }
         line.append(message);
-        whitelenght = (((linelenght-2-message.length())%2 == 0)) ? whitelenght : whitelenght - 1;
+        whitelenght = (((el)%2 == 0)) ? whitelenght : whitelenght - 1;
         for(int j=0; j<whitelenght; j++){
             line.append(" ");
         }
         line.append("*");
         line.append(System.lineSeparator());
         return line.toString();
+    }
+
+    private String borderline(int linelenght, String border){
+        if(linelenght%border.length() == 0){
+            linelenght = linelenght/border.length();
+        }else{
+            linelenght = linelenght/border.length()+1;
+        }
+
+        StringBuilder line = new StringBuilder("");
+        for (int j =0; j<linelenght; j++ ){
+            line.append(border);
+        }
+        line.append(System.lineSeparator());
+        return  line.toString();
     }
 }

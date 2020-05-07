@@ -2,6 +2,7 @@ package frontend.console;
 
 import controllers.HoofdMenuNietIngelogdController;
 import controllers.MainController;
+import controllers.RegistreerController;
 import factories.GebruikerType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class RegistreerDialogTest {
 
     MainController mainController;
 
-    RegistreerDialog testDialog;
+    RegistreerController testDialog;
 
     HoofdMenuNietIngelogdController terug;
 
@@ -31,7 +32,7 @@ class RegistreerDialogTest {
         mainController = MainController.getInstance();
         mainController.setScanner(scannerMock);
         terug = new HoofdMenuNietIngelogdController();
-        testDialog = new RegistreerDialog(GebruikerType.BEZOEKER, terug);
+        testDialog = new RegistreerController(GebruikerType.BEZOEKER, terug);
     }
 
     @Test

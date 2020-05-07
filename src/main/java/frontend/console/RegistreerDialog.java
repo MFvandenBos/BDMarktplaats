@@ -37,18 +37,23 @@ public class RegistreerDialog extends AbstractDialog {
 
 
     @Override
-    public void load(Gebruiker gebruiker) {
-        throw new NotImplementedException();
-    }
-
-    @Override
-    protected void toonMenuHeader(String... messages) {
+    public void toonMenuHeader(String... messages) {
 
     }
 
     @Override
     public boolean bevestigOpdracht(String bevestigvraag) {
         return false;
+    }
+
+    @Override
+    public String vraagGebruikerInputString(String vraag) {
+        return null;
+    }
+
+    @Override
+    public Integer vraagGebruikerInputInteger(String vraag) {
+        return null;
     }
 
     private void terug() {

@@ -19,7 +19,7 @@ public class RegistreerController extends AbstractController{
 
     GebruikerFactory gebruikerFactory;
     GebruikerType doel;
-    AbstractMenu terug;
+    AbstractController terug;
     GebruikerDao gebruikerDao;
 
     public RegistreerController(GebruikerType gebruikerType, AbstractController terug){
@@ -27,11 +27,12 @@ public class RegistreerController extends AbstractController{
         EntityManager em = MainController.getInstance().getEm();
         gebruikerDao = new GebruikerDao(em);
         doel = gebruikerType;
+        terug = terug;
     }
 
     @Override
     public void load() {
-        super.currentView = new RegistreerDialog(doel, new StandaardMenu());
+        super.currentView = new RegistreerDialog(new StandaardMenu());
         Gebruiker gebruiker = registreerEmail();
         registreerWachtwoord(gebruiker);
     }
@@ -71,7 +72,8 @@ public class RegistreerController extends AbstractController{
         }catch (InvalidPasswordException ex){
             System.out.println(ex.getCause());
             System.out.println(ex.getMessage());
-            System.out.println("Dit password kan niet worden toegepast op deze gebruiker. Probeer opnieuw of neem contact op met systeembeheerder");
+            System.out.println("Dit password kan niet worden toegepast op deze gebruiker." +
+                    " Probeer opnieuw of neem contact op met systeembeheerder");
             load();
         }
     }
@@ -80,14 +82,15 @@ public class RegistreerController extends AbstractController{
         String email;
         String email2;
         do {
-            email = vraagStellerString("Wat is je email adres? ");
+            email = currentView.vraagGebruikerInputString("Wat is je email adres? ");
             while (!isValidEmail(email)) {
-                email = vraagStellerString(email + "Is geen valide email adres, geef een juist email adress op, of type q om te beeindigen");
+                email = currentView.vraagGebruikerInputString(
+                        email + "Is geen valide email adres, geef een juist email adress op, of type q om te beeindigen");
                 if (email.equals("q")) {
                     terug();
                 }
             }
-            email2 = vraagStellerString("Geef nogmaals je email adres als bevestiging.");
+            email2 = currentView.vraagGebruikerInputString("Geef nogmaals je email adres als bevestiging.");
             if (!email2.equals(email)) {
                 System.out.println("Email adres komt niet overeen, probeer opnieuw");
             }
@@ -99,15 +102,17 @@ public class RegistreerController extends AbstractController{
         String password1;
         String password2;
         do {
-            password1 = vraagStellerString("Welke wachtwoord wil je gebruiken? (moet minimaal 9 tekens, waaronder minimaal 1 cijfer, en 1 letter bevatten)? ");
+            password1 = currentView.vraagGebruikerInputString("Welke wachtwoord wil je gebruiken? " +
+                    "(moet minimaal 9 tekens, waaronder minimaal 1 cijfer, en 1 letter bevatten)? ");
             while (!checkPassword(password1, email)) {
                 System.out.println("Dit password is niet voldoende, het moet minimaal 9 tekens, waaronder minimaal 1 cijfer, en 1 letter bevatten");
-                password1 = vraagStellerString("geef een beter password, of type q om te beëindigen");
+                password1 = currentView.vraagGebruikerInputString("geef een beter password, of type q om te beëindigen");
+                //TODO: verander dit, account is al gemaakt!
                 if (email.equals("q")) {
                     terug();
                 }
             }
-            password2 = vraagStellerString("Geef nogmaals het password als bevestiging.");
+            password2 = currentView.vraagGebruikerInputString("Geef nogmaals het password als bevestiging.");
             if (!password2.equals(password1)) {
                 System.out.println("Email adres komt niet overeen, probeer opnieuw");
             }
@@ -115,5 +120,8 @@ public class RegistreerController extends AbstractController{
         return password1;
     }
 
+    private void terug() {
+        terug.load();
+    }
 
 }

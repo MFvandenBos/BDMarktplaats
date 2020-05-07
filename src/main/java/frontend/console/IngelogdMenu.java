@@ -16,6 +16,10 @@ public class IngelogdMenu extends AbstractMenu {
         toonMenuHeader(messages);
     }
 
+    public void update(String email, String saldo){
+        toonGebruiker(email, saldo);
+    }
+
     @Override
     public int laatGebruikerKiezen(String... keuzes) {
         //returns user choice as int of location keuze
@@ -24,7 +28,7 @@ public class IngelogdMenu extends AbstractMenu {
     }
 
     @Override
-    protected void toonMenuHeader(String... messages) {
+    public void toonMenuHeader(String... messages) {
         System.out.println( menuBuilder.createMenuHeader(messages));
     }
 
@@ -38,7 +42,9 @@ public class IngelogdMenu extends AbstractMenu {
         return laatGebruikerKiezen(keuzes);
     }
 
-    protected void toonGebruiker(String email, String saldo, String )
+    protected void toonGebruiker(String email, String saldo){
+
+    }
 
 
 

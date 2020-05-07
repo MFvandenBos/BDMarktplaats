@@ -2,10 +2,7 @@ package controllers;
 
 import domain.Gebruiker;
 import factories.GebruikerType;
-import frontend.console.AbstractMenu;
-import frontend.console.MenuBuilder;
-import frontend.console.RegistreerDialog;
-import frontend.console.StandaardMenu;
+import frontend.console.*;
 
 import javax.swing.JOptionPane;
 
@@ -35,7 +32,7 @@ public class HoofdMenuNietIngelogdController extends AbstractController{
         System.out.print(menuBuilder.createMenu(functionList));
         int optie =0;
         try {
-            optie = optieKiezer();
+            optie = currentView.laatGebruikerKiezen(functionList);
         }catch(RuntimeException ex){
             System.out.println("Invoerfout");
         }
@@ -48,8 +45,8 @@ public class HoofdMenuNietIngelogdController extends AbstractController{
                 LoginMenu loginMenu = new LoginMenu();
                 loginMenu.load(); break;
             case 2:
-                RegistreerDialog registreerDialog = new RegistreerDialog();
-                registreerDialog.load(); break;
+                RegistreerController registreerController = new RegistreerController(GebruikerType.BEZOEKER, this);
+                registreerController.load(); break;
             case 3:
                 exitProgram();
                 load(); break;

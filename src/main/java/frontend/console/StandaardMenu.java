@@ -33,7 +33,7 @@ public class StandaardMenu extends AbstractMenu {
     }
 
     @Override
-    protected void toonMenuHeader(String... messages) {
+    public void toonMenuHeader(String... messages) {
         System.out.println( menuBuilder.createMenuHeader(messages));
     }
 
@@ -48,6 +48,16 @@ public class StandaardMenu extends AbstractMenu {
             default:
                 return false;
         }
+    }
+
+    @Override
+    public String vraagGebruikerInputString(String vraag) {
+        return null;
+    }
+
+    @Override
+    public Integer vraagGebruikerInputInteger(String vraag) {
+        return null;
     }
 
     protected int keuzeMenuMetHeader(String[] headerMessages, String[] keuzes){

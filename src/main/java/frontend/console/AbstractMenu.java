@@ -16,6 +16,11 @@ public abstract class AbstractMenu {
 
     abstract public boolean bevestigOpdracht(String bevestigvraag);
 
+    abstract public String vraagGebruikerInputString(String vraag);
+
+    abstract public Integer vraagGebruikerInputInteger(String vraag);
+
+
     //TODO: mock this, move to a menu util class
     protected int optieKiezer(){
         ScannerWrapper scanner = MainController.getInstance().getScanner();  // Get a Scanner object
