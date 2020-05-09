@@ -1,6 +1,7 @@
 package dao;
 
 import controllers.MainController;
+import controllers.RegistreerController;
 import dao.exceptions.GebruikerNotFoundException;
 import domain.Gebruiker;
 import factories.GebruikerType;
@@ -28,7 +29,7 @@ class GebruikerDaoTest {
 
     MainController mainController;
 
-    RegistreerDialog testDialog;
+    RegistreerController testDialog;
 
     HoofdMenuNietIngelogdController terug;
 
@@ -37,10 +38,10 @@ class GebruikerDaoTest {
     @BeforeEach
     void setup(){
         mainController = MainController.getInstance();
-        EntityManager em = mainController.getEm();
+        EntityManager em = mainController.getEntityManager();
         mainController.setScanner(scannerMock);
         terug = new HoofdMenuNietIngelogdController();
-        testDialog = new RegistreerDialog(GebruikerType.BEZOEKER, terug);
+        testDialog = new RegistreerController(GebruikerType.BEZOEKER, terug);
         testDao = new GebruikerDao(em);
     }
 

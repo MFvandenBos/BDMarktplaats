@@ -1,6 +1,6 @@
 package dao.exceptions;
 
-public class GebruikerNotFoundException extends Throwable {
+public class GebruikerNotFoundException extends Exception {
     public GebruikerNotFoundException(){}
     public GebruikerNotFoundException(String problem)
     {

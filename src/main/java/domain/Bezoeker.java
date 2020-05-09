@@ -14,9 +14,6 @@ public class Bezoeker extends Gebruiker {
     boolean versturen;
     boolean versturenRembours;
 
-    @Embedded
-    Address adres;
-
     public Bezoeker(){}
 
     public Bezoeker(String email, boolean thuisAfhalen, boolean magazijnAfhalen, boolean versturen, boolean versturenRembours, Address adres) throws InvalidEmailException {
@@ -69,20 +66,12 @@ public class Bezoeker extends Gebruiker {
         this.versturenRembours = versturenRembours;
     }
 
-    public Address getAdres() {
-        return adres;
-    }
-
-    public void setAdres(Address adres) {
-        this.adres = adres;
-    }
-
     public boolean isThuisAfhalen() {
         return thuisAfhalen;
     }
 
     public void setThuisAfhalen(boolean thuisAfhalen) throws NoKnownAddressException {
-        if(adres == null){
+        if(adres == null && thuisAfhalen){
             throw new NoKnownAddressException("geen adres beschikbaar");
         }else{
             this.thuisAfhalen = thuisAfhalen;

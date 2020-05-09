@@ -38,9 +38,10 @@ class RegistreerDialogTest {
     @Test
     void loadTestGreenRun() {
         assertTimeout(ofMillis(2000), () -> {
-            when(scannerMock.nextLine()).thenReturn("testemail@test.com", "testemail@test.com", "testWacht1", "testWacht1");
+            when(scannerMock.nextLine()).thenReturn("testemail@test.com", "testemail@test.com", "testWacht1", "testWacht1","J");
             testDialog.load();
-            verify(scannerMock, times(4)).nextLine();
+            verify(scannerMock, times(5)).nextLine();
+            Thread.sleep(1999);
         });
     }
 

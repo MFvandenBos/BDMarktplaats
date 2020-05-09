@@ -1,17 +1,16 @@
 package controllers;
 
+import controllers.exceptions.WrongInstanceException;
 import dao.GebruikerDao;
+import domain.Bezoeker;
 import domain.Gebruiker;
 import domain.exceptions.InvalidEmailException;
 import domain.exceptions.InvalidPasswordException;
 import factories.GebruikerFactory;
 import factories.GebruikerType;
-import frontend.console.AbstractMenu;
 import frontend.console.RegistreerDialog;
-import frontend.console.StandaardMenu;
 
 import javax.persistence.EntityManager;
-import java.security.PublicKey;
 
 import static util.Util.*;
 
@@ -21,25 +20,48 @@ public class RegistreerController extends AbstractController{
     GebruikerType doel;
     AbstractController terug;
     GebruikerDao gebruikerDao;
+    AfleverOptiesController afleverOptiesController;
+    RegelsController regelsController;
+    LoginMenuController loginMenuController;
 
     public RegistreerController(GebruikerType gebruikerType, AbstractController terug){
         gebruikerFactory = new GebruikerFactory();
-        EntityManager em = MainController.getInstance().getEm();
+        EntityManager em = MainController.getInstance().getEntityManager();
         gebruikerDao = new GebruikerDao(em);
         doel = gebruikerType;
-        terug = terug;
+        this.terug = terug;
+        this.afleverOptiesController = new AfleverOptiesController();
+        this.regelsController = new RegelsController(this);
+        this.loginMenuController = new LoginMenuController(terug);
     }
 
     @Override
     public void load() {
-        super.currentView = new RegistreerDialog(new StandaardMenu());
+        super.currentView = new RegistreerDialog();
         Gebruiker gebruiker = registreerEmail();
-        registreerWachtwoord(gebruiker);
+        currentView.toon("Uw email adres is geregistreerd.");
+        //TODO: password generator
+        load(gebruiker);
     }
 
     @Override
     public void load(Gebruiker gebruiker) {
+        super.currentView = new RegistreerDialog();
+        registreerWachtwoord(gebruiker);
 
+        regelsController.load(gebruiker);
+        gebruikerDao.update(gebruiker);
+
+        if(doel == GebruikerType.BEZOEKER){
+            try {
+                afleverOptiesController.load(gebruiker);
+            } catch (WrongInstanceException e) {
+            }
+        }
+        loginMenuController.load(gebruiker);
+    }
+
+    private void terug() { terug.load();
     }
 
     private Gebruiker registreerEmail(){
@@ -49,7 +71,7 @@ public class RegistreerController extends AbstractController{
             gebruikerDao.insert(gebruiker);
             return gebruiker;
         }catch (InvalidEmailException ex0){
-            System.out.println("Email: " + email + "is geen geldig adres");
+            System.out.println(" Email: " + email + "is geen geldig adres");
             System.out.println("probeer opnieuw: ");
             load();
 
@@ -60,7 +82,7 @@ public class RegistreerController extends AbstractController{
             System.out.println("probeer opnieuw: ");
             load();
         }
-        return  null;
+        throw new RuntimeException("This should never happen, something is wrong!");
     }
 
     private void registreerWachtwoord(Gebruiker gebruiker){
@@ -74,7 +96,7 @@ public class RegistreerController extends AbstractController{
             System.out.println(ex.getMessage());
             System.out.println("Dit password kan niet worden toegepast op deze gebruiker." +
                     " Probeer opnieuw of neem contact op met systeembeheerder");
-            load();
+            load(gebruiker);
         }
     }
 
@@ -105,23 +127,17 @@ public class RegistreerController extends AbstractController{
             password1 = currentView.vraagGebruikerInputString("Welke wachtwoord wil je gebruiken? " +
                     "(moet minimaal 9 tekens, waaronder minimaal 1 cijfer, en 1 letter bevatten)? ");
             while (!checkPassword(password1, email)) {
-                System.out.println("Dit password is niet voldoende, het moet minimaal 9 tekens, waaronder minimaal 1 cijfer, en 1 letter bevatten");
-                password1 = currentView.vraagGebruikerInputString("geef een beter password, of type q om te beëindigen");
-                //TODO: verander dit, account is al gemaakt!
-                if (email.equals("q")) {
-                    terug();
-                }
+                System.out.println("Dit wachtwoord is niet voldoende, het moet minimaal 9 tekens, waaronder minimaal 1 cijfer, en 1 letter bevatten");
+                password1 = currentView.vraagGebruikerInputString("geef een beter password");
             }
-            password2 = currentView.vraagGebruikerInputString("Geef nogmaals het password als bevestiging.");
+            password2 = currentView.vraagGebruikerInputString("Geef nogmaals het wachtwoord als bevestiging.");
             if (!password2.equals(password1)) {
-                System.out.println("Email adres komt niet overeen, probeer opnieuw");
+                System.out.println("Wachtwoord komt niet overeen, probeer opnieuw");
             }
         } while (!password2.equals(password1));
         return password1;
     }
 
-    private void terug() {
-        terug.load();
-    }
+
 
 }

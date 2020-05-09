@@ -1,7 +1,10 @@
 package controllers;
 
+import controllers.exceptions.WrongInstanceException;
 import domain.Gebruiker;
 import frontend.console.AbstractMenu;
+
+import java.io.FileNotFoundException;
 
 public abstract class AbstractController {
 
@@ -9,5 +12,5 @@ public abstract class AbstractController {
 
     abstract public void load();
 
-    abstract public void load(Gebruiker gebruiker);
+    abstract public void load(Gebruiker gebruiker) throws WrongInstanceException;
 }

@@ -2,32 +2,27 @@ package frontend.console;
 
 import controllers.MainController;
 import domain.Gebruiker;
+import frontend.console.exceptions.NotANumberException;
 import util.ScannerWrapper;
 
 import java.util.Scanner;
 
 public abstract class AbstractDialog extends AbstractMenu {
 
-    //TODO: mock this, move to a menu util class
-    protected int vraagStellerInt(String vraag){
-        ScannerWrapper scanner = MainController.getInstance().getScanner();  // Get a Scanner object
-        System.out.println(vraag);
-        int o = Integer.parseInt(scanner.nextLine());  // Read user input
-        return o;
+    public boolean vraagGebruikerInputBoolean(String vraag) {
+       String respons = vraagStellerString(vraag+"(J/N)");
+       boolean slechtantwoord = true;
+       while(slechtantwoord){
+           respons = respons.toLowerCase();
+           if(respons.equals("j")||respons.equals("ja")){
+               return true;
+           }else if(respons.equals("n")||respons.equals("nee")){
+               return false;
+           }
+       }
+       throw new RuntimeException("vraagGebruikerInputBoolean heeft gefaald");
     }
 
-    //TODO: mock this, move to a menu util class
-    protected String vraagStellerString(String vraag){
-        ScannerWrapper scanner = MainController.getInstance().getScanner();  // Get a Scanner object
-        System.out.println(vraag);
-        String o = scanner.nextLine();  // Read user input
-        return o;
-    }
-
-    protected void toon(String ... messages){
-
-    }
-
-
-
+    abstract public void toonRegelement(String... regels);
 }
+

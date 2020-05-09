@@ -14,7 +14,6 @@ public class Util {
 
     public static EntityManager h2() { return Persistence.createEntityManagerFactory("H2").createEntityManager();}
 
-    //TODO: this method is duplicate with 'Gebruiker.class'
     public static boolean containsNONumber(String tobechecked) {
         return !tobechecked.matches(".*\\d.*");
     }

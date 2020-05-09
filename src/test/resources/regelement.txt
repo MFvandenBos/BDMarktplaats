@@ -1,0 +1,8 @@
+Deelnemers aan de site dienen zich aan een reglement te houden.
+#regel Een beheerder is bevoegd om geregistreerde gebruikers de toegang tot de site te ontnemen als ze zich niet aan het reglement houden.
+
+#regel Het aanbieden is gratis maar niet vrijblijvend! Zodra de vraagprijs voor een artikel is geboden bent u verplicht het te verkopen.
+
+#regel Als een product verkocht is zal de verkoper mogelijk maken dat de koper het product snel krijgt
+
+#regel Alle verkooptransacties worden bewaard in de database. Dat wil zeggen dat alle aangeboden producten die daadwerkelijk zijn verkocht worden geregistreerd.

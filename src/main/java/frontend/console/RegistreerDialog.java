@@ -1,21 +1,14 @@
 package frontend.console;
 
-import controllers.RegistreerController;
-import dao.GebruikerDao;
-import domain.Gebruiker;
-import factories.GebruikerFactory;
-import factories.GebruikerType;
+
+import frontend.console.exceptions.NotANumberException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class RegistreerDialog extends AbstractDialog {
     MenuBuilder menuBuilder;
-    GebruikerFactory gebruikerFactory;
-    GebruikerType doel;
     AbstractMenu terug;
-    GebruikerDao gebruikerDao;
 
-    public RegistreerDialog(AbstractMenu terug) {
-
+    public RegistreerDialog() {
         menuBuilder = new MenuBuilder();//TODO: its not really a builder
         this.terug = terug;
     }
@@ -31,10 +24,11 @@ public class RegistreerDialog extends AbstractDialog {
     }
 
     @Override
-    public int laatGebruikerKiezen(String... keuzes) {
-        return 0;
+    public int laatGebruikerKiezen(String... keuzes) throws NotANumberException {
+        //returns user choice as int of location keuze
+        System.out.println(menuBuilder.createMenu(keuzes));
+        return optieKiezer();
     }
-
 
     @Override
     public void toonMenuHeader(String... messages) {
@@ -42,26 +36,15 @@ public class RegistreerDialog extends AbstractDialog {
     }
 
     @Override
-    public boolean bevestigOpdracht(String bevestigvraag) {
-        return false;
+    public void toonGebruiker(String email, String saldo) {
+        throw new NotImplementedException();
     }
 
     @Override
-    public String vraagGebruikerInputString(String vraag) {
-        return null;
+    public void toonRegelement(String... regels){
+        String border = menuBuilder.createBorderedOutput("-","|", regels);
+        System.out.println(border);
     }
-
-    @Override
-    public Integer vraagGebruikerInputInteger(String vraag) {
-        return null;
-    }
-
-    private void terug() {
-        terug.load();
-    }
-
-
-
 
 }
 

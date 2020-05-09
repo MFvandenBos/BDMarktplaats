@@ -3,8 +3,7 @@ package controllers;
 import domain.Gebruiker;
 import factories.GebruikerType;
 import frontend.console.*;
-
-import javax.swing.JOptionPane;
+import frontend.console.exceptions.NotANumberException;
 
 public class HoofdMenuNietIngelogdController extends AbstractController{
 
@@ -17,24 +16,34 @@ public class HoofdMenuNietIngelogdController extends AbstractController{
 
     @Override
     public void load(Gebruiker gebruiker) {
-
+        LoginMenuController loginMenu = new LoginMenuController(this);
+        loginMenu.load(gebruiker);
     }
 
+    @Override
     public void load(){
         currentView.load("BDMarktplaats", "Hoofdmenu");
-
+        int fun = 0;
+        try {
+            fun = currentView.laatGebruikerKiezen(functionList);
+        }catch (NotANumberException delta){
+            String header = "Voer alleen nummers in";
+            loadWithHeader(header);
+        }
+        functionSwitch(fun);
     }
 
-    //TODO: this requires a mock to test
     private void loadWithHeader(String header){
-        MenuBuilder menuBuilder = new MenuBuilder();
-        System.out.print(header);
-        System.out.print(menuBuilder.createMenu(functionList));
+        currentView.toonMenuHeader(header);
         int optie =0;
         try {
             optie = currentView.laatGebruikerKiezen(functionList);
-        }catch(RuntimeException ex){
-            System.out.println("Invoerfout");
+        }catch (NotANumberException delta){
+            header = "Voer alleen nummers in";
+            loadWithHeader(header);
+        } catch(RuntimeException ex){
+            System.out.println("Invoerfout, --reload hoofdmenu");
+            load();
         }
         functionSwitch(optie);
     }
@@ -42,7 +51,7 @@ public class HoofdMenuNietIngelogdController extends AbstractController{
     private void functionSwitch(int fun){
         switch (fun){
             case 1:
-                LoginMenu loginMenu = new LoginMenu();
+                LoginMenuController loginMenu = new LoginMenuController(this);
                 loginMenu.load(); break;
             case 2:
                 RegistreerController registreerController = new RegistreerController(GebruikerType.BEZOEKER, this);

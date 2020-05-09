@@ -5,7 +5,6 @@ import domain.exceptions.InvalidPasswordException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GebruikerTest {
@@ -51,5 +50,21 @@ class GebruikerTest {
         }
         assertThat(testGebruiker.verifyPassword(vbPW)).isEqualTo(true);
         assertThat(testGebruiker.verifyPassword(vbPW2)).isEqualTo(false);
+    }
+
+    @Test
+    void verifyPasswordTestCharArray()  {
+        String vbPW = "voorbeeldPassword1";
+        char[] vbPWCA= {'v','o', 'o', 'r', 'b', 'e', 'e', 'l', 'd', 'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '1'};
+        String vbPW2 = "voorbeeldPassword2";
+        char[] vbPWCA2= {'v','o', 'o', 'r', 'b', 'e', 'e', 'l', 'd', 'P', 'a', 's', 's', 'w', 'o', 'r', 'd', '2'};
+        try {
+            testGebruiker.setPassword(vbPW);
+        }catch (InvalidPasswordException ex){
+            assertThat("setPassword threw InvalidPasswordException").isEqualTo("which is not supposed to happen");
+        }
+        assertThat(testGebruiker.verifyPassword(vbPW)).isEqualTo(true);
+        assertThat(testGebruiker.verifyPassword(vbPWCA2)).isEqualTo(false);
+        assertThat(testGebruiker.verifyPassword(vbPWCA)).isEqualTo(true);
     }
 }

@@ -7,10 +7,14 @@ import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static util.Util.checkPassword;
 import static util.Util.isValidEmail;
@@ -38,9 +42,20 @@ public class Gebruiker extends AbstractEntity {
     @NotNull
     private byte[] password;
 
+    @Embedded
+    Address adres;
+
     @NotNull
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     Portemonee portemonee;
+
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "verkoper" )
+    private List<Artikel> geplaatsteArtikels = new ArrayList<>();
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public Gebruiker(){};
 
@@ -92,10 +107,6 @@ public class Gebruiker extends AbstractEntity {
         portemonee.setGebruiker(this);
     }
 
-    public boolean containsNONumber(String checked){
-        return !checked.matches(".*\\d.*");
-    }
-
     public void setPassword(String password) throws InvalidPasswordException {
         if(!checkPassword(password,this.emailAdress)) {
             throw new InvalidPasswordException();
@@ -116,9 +127,61 @@ public class Gebruiker extends AbstractEntity {
         return encodedhash;
     }
 
+    public boolean verifyPassword(char[] password){
+        StringBuilder passwordS = new StringBuilder("");
+        for (char x :password){
+            passwordS.append(x);
+        }
+        return verifyPassword(passwordS.toString());
+    }
+
     public boolean verifyPassword(String password) {
         byte[] verier;
             verier = encodePassword(password);
+            System.gc();
             return Arrays.equals(verier, this.password);
+    }
+
+    public boolean isRegelementAkkoord() {
+        return regelementAkkoord;
+    }
+
+    public Address getAdres() {
+        return adres;
+    }
+
+    public void setAdres(Address adres) {
+        this.adres = adres;
+    }
+
+    public void setRegelementAkkoord(boolean regelementAkkoord) {
+        this.regelementAkkoord = regelementAkkoord;
+    }
+
+    public boolean isActiefAccount() {
+        return actiefAccount;
+    }
+
+    public void setActiefAccount(boolean actiefAccount) {
+        this.actiefAccount = actiefAccount;
+    }
+
+    public String getSaldo(){
+        BigDecimal saldoB = portemonee.getBalans();
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
+        df.setGroupingUsed(false);
+        String uit = df.format(saldoB);
+        String saldoS = uit+" euro";
+        return saldoS;
+    }
+
+    @Override
+    public String toString() {
+        return "Gebruiker{" +
+                "id=" + id +
+                ", emailAdress='" + emailAdress + '\'' +
+                '}';
     }
 }

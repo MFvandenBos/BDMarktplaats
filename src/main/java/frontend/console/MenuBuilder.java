@@ -5,8 +5,34 @@ public class MenuBuilder {
     public String createMenu(String[] options){
         StringBuilder out = new StringBuilder("");
         for(int i =0; i < options.length; i++){
-            out.append((i+1)).append(options[i]).append(System.lineSeparator());
+            out.append((i+1)).append(": ").append(options[i]).append(System.lineSeparator());
         }
+        return out.toString();
+    }
+
+    public String createBorderedOutput(String borderStyleH, String borderStyleV, String ... texts){
+        int linelenght = 70;
+        StringBuilder out = new StringBuilder(borderline(linelenght, borderStyleH));
+        for (String text: texts){
+            if(text.length()>66){
+                String[] x = text.split(" ");
+                StringBuilder internal = new StringBuilder("");
+                for(int i = 0; i<x.length; i++){
+                    if((internal.length()+x[i].length() )<= 66) {
+                        internal.append(x[i]).append(" ");
+                    }else {
+                        out.append(messageline(internal.toString(), 70, borderStyleV));
+                        internal.setLength(0);
+                        internal.append(x[i]).append(" ");
+                    }
+                }
+                out.append(messageline(internal.toString(), 70, borderStyleV));
+            }else{
+                out.append(messageline(text, 70, borderStyleV));
+            }
+            out.append(messageline("",70,borderStyleV));
+        }
+        out.append(borderline(70,borderStyleH));
         return out.toString();
     }
 
@@ -51,7 +77,7 @@ public class MenuBuilder {
         }
         int el = linelenght-border.length()-message.length();
 
-        StringBuilder line = new StringBuilder("*");
+        StringBuilder line = new StringBuilder(border);
         int whitelenght = (el%2 == 0) ? (el)/2 : (el)/2+1;
         for(int j=0; j<whitelenght; j++){
             line.append(" ");
@@ -61,16 +87,16 @@ public class MenuBuilder {
         for(int j=0; j<whitelenght; j++){
             line.append(" ");
         }
-        line.append("*");
+        line.append(border);
         line.append(System.lineSeparator());
         return line.toString();
     }
 
     private String borderline(int linelenght, String border){
         if(linelenght%border.length() == 0){
-            linelenght = linelenght/border.length();
-        }else{
             linelenght = linelenght/border.length()+1;
+        }else{
+            linelenght = linelenght/border.length()+2;
         }
 
         StringBuilder line = new StringBuilder("");

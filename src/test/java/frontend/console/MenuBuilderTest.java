@@ -1,5 +1,6 @@
 package frontend.console;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -7,9 +8,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MenuBuilderTest {
 
+    MenuBuilder testSubject;
+
+    @BeforeEach
+    void setup(){
+        testSubject = new MenuBuilder();
+    }
+
+
     @Test
     void createMenuHeader() {
-        MenuBuilder testSubject = new MenuBuilder();
+
         String result = testSubject.createMenuHeader("HOI", "dit is een test");
 
         StringBuilder expected = new StringBuilder("");
@@ -22,7 +31,7 @@ class MenuBuilderTest {
 
     @Test
     void createMenuHeaderEmpty() {
-        MenuBuilder testSubject = new MenuBuilder();
+
         String result = testSubject.createMenuHeader();
 
         StringBuilder expected = new StringBuilder("");
@@ -34,7 +43,7 @@ class MenuBuilderTest {
 
     @Test
     void createMenuHeaderlong() {
-        MenuBuilder testSubject = new MenuBuilder();
+
         String result = testSubject.createMenuHeader("HOI", "dit is een lange test");
 
         StringBuilder expected = new StringBuilder("");
@@ -48,7 +57,6 @@ class MenuBuilderTest {
 
     @Test
     void createMenuHeaderEven() {
-        MenuBuilder testSubject = new MenuBuilder();
         String result = testSubject.createMenuHeader("Woef" );
 
         StringBuilder expected = new StringBuilder("");
@@ -57,6 +65,16 @@ class MenuBuilderTest {
         expected.append("*************************").append(System.lineSeparator());
 
         assertThat(result).isEqualTo(expected.toString());
+    }
+
+    @Test
+    void createBorderedOutputTest(){
+        String text1 = "Dit is een lange test zin, langer dan 66 tekens. Daarom zou het moeten worden verspreid. ";
+        String text2 = "Dit is een korte test zin.";
+        String result = testSubject.createBorderedOutput("-","|", text1, text2);
+        System.out.println(result);
+
+
     }
 
 

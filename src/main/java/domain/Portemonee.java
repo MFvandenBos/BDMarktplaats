@@ -30,4 +30,8 @@ public class Portemonee {
     public void setGebruiker(Gebruiker gebruiker) {
         this.gebruiker = gebruiker;
     }
+
+    public BigDecimal getBalans() {
+        return balans;
+    }
 }

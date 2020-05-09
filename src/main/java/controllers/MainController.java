@@ -8,6 +8,7 @@ import static util.Util.mysql;
 
 public class MainController {
 
+    private boolean useJPassword = true;
     private static MainController instance;
     private EntityManager em;
     private ScannerWrapper scanner;
@@ -22,15 +23,22 @@ public class MainController {
     }
 
     public static MainController getInstance(){
+        if(instance == null){
+            instance = new MainController();
+        }
         return instance;
     }
 
     private MainController(){
-        this.em = mysql();
+        try {
+            this.em = mysql();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         scanner = new ScannerWrapper();
     }
 
-    public EntityManager getEm() {
+    public EntityManager getEntityManager() {
         return em;
     }
 
@@ -45,6 +53,10 @@ public class MainController {
 
     public void setEm(EntityManager em) {
         this.em = em;
+    }
+
+    public boolean isUseJPassword() {
+        return useJPassword;
     }
 }
 

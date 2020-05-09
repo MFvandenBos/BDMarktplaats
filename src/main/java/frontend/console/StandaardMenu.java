@@ -1,12 +1,9 @@
 package frontend.console;
 
-import domain.Gebruiker;
-import factories.GebruikerType;
+import frontend.console.exceptions.NotANumberException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.persistence.EntityManager;
 import javax.swing.*;
-
-import static util.Util.mysql;
 
 public class StandaardMenu extends AbstractMenu {
     MenuBuilder menuBuilder;
@@ -22,11 +19,11 @@ public class StandaardMenu extends AbstractMenu {
 
     @Override
     public void load(String... messages) {
-        toonMenuHeader( messages);
+        toonMenuHeader(messages);
     }
 
     @Override
-    public int laatGebruikerKiezen(String... keuzes) {
+    public int laatGebruikerKiezen(String... keuzes) throws NotANumberException {
         //returns user choice as int of location keuze
         System.out.println(menuBuilder.createMenu(keuzes));
         return optieKiezer();
@@ -38,29 +35,28 @@ public class StandaardMenu extends AbstractMenu {
     }
 
     @Override
-    public boolean bevestigOpdracht(String bevestigvraag) {
-        int input = JOptionPane.showConfirmDialog(null, bevestigvraag);
-        // 0=yes, 1=no, 2=cancel
-        switch (input){
-            case 0:
-                return true;
-            case 1:
-            default:
-                return false;
+    public String vraagGebruikerInputString(String vraag) {
+        return vraagStellerString(vraag);
+    }
+
+    @Override
+    public void toonGebruiker(String email, String saldo) {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Integer vraagGebruikerInputInteger(String vraag) throws NotANumberException {
+        return vraagStellerInt(vraag);
+    }
+
+    @Override
+    public void toon(String... messages) {
+        for (String message : messages) {
+            System.out.println(message);
         }
     }
 
-    @Override
-    public String vraagGebruikerInputString(String vraag) {
-        return null;
-    }
-
-    @Override
-    public Integer vraagGebruikerInputInteger(String vraag) {
-        return null;
-    }
-
-    protected int keuzeMenuMetHeader(String[] headerMessages, String[] keuzes){
+    protected int keuzeMenuMetHeader(String[] headerMessages, String[] keuzes) throws NotANumberException {
         toonMenuHeader(headerMessages);
         return laatGebruikerKiezen(keuzes);
     }

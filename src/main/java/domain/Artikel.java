@@ -12,6 +12,7 @@ public class Artikel {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     long id;
 
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     Gebruiker verkoper;
 
     BigDecimal prijs;
