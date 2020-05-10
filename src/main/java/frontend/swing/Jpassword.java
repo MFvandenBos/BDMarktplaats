@@ -95,6 +95,7 @@ public class Jpassword extends JPanel implements ActionListener {
     }
 
     public void setFail(){
+        JOptionPane.showMessageDialog(controllingFrame,"wachtwoord fout, probeer opnieuw.");
         passwordField.selectAll();
         resetFocus();
     }

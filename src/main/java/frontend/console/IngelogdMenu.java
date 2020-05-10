@@ -4,7 +4,7 @@ import frontend.console.exceptions.NotANumberException;
 
 public class IngelogdMenu extends AbstractMenu {
     MenuBuilder menuBuilder;
-    protected static String FORMATTER = "%1$30s   %2$-30s ";
+
 
     public IngelogdMenu() {
         menuBuilder = new MenuBuilder();
@@ -53,14 +53,9 @@ public class IngelogdMenu extends AbstractMenu {
         System.out.println(output);
     }
 
-    protected void toonTwoColumns(String[] col1, String[] col2){
-        int stop = col1.length
-        if(col1.length > col2.length){
-            stop = col2.length;
-        }
-        for(int i = 0; i< stop; i++){
-            System.out.println(String.format(FORMATTER+" %4$-2d" ,col1[i],col2[i]));
-        }
+    public void toonTweeKolommen(String[] col1, String[] col2){
+       String out = menuBuilder.toonTwoColumns(col1, col2, ":");
+        System.out.println(out);
     }
 
 

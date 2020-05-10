@@ -1,6 +1,7 @@
 package factories;
 
 import com.google.gson.JsonObject;
+import domain.Address;
 import domain.Bezoeker;
 import domain.Gebruiker;
 import domain.exceptions.InvalidEmailException;
@@ -97,11 +98,11 @@ public class GebruikerFactory extends AbstractFactory {
     }
 
     private Gebruiker createBezoeker(String email, String password) throws InvalidPasswordException, InvalidEmailException {
-        return new Bezoeker(email, password, false, true, false, false, null);
+        return new Bezoeker(email, password, false, true, false, false, new Address());
     }
 
     private Gebruiker createBezoeker(String email) throws InvalidEmailException {
-        return new Bezoeker(email, false, true, false, false, null);
+        return new Bezoeker(email, false, true, false, false, new Address());
 
     }
 

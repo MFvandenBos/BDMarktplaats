@@ -57,10 +57,13 @@ public class Gebruiker extends AbstractEntity {
         return super.clone();
     }
 
-    public Gebruiker(){};
+    public Gebruiker(){
+        adres = new Address();
+    };
 
     public Gebruiker(String emailAdress) throws InvalidEmailException {
         init(emailAdress);
+        adres = new Address();
         try {
             setPassword("Aaaaaaaaaa9");
         }catch (InvalidPasswordException e){
@@ -78,6 +81,7 @@ public class Gebruiker extends AbstractEntity {
         regelementAkkoord = false;
         actiefAccount = true;
         Portemonee por = new Portemonee();
+        adres = new Address();
         setPortemonee(por);
     }
 
@@ -146,7 +150,8 @@ public class Gebruiker extends AbstractEntity {
         return regelementAkkoord;
     }
 
-    public Address getAdres() {
+    public Address getAdres()
+    {
         return adres;
     }
 
@@ -175,6 +180,14 @@ public class Gebruiker extends AbstractEntity {
         String uit = df.format(saldoB);
         String saldoS = uit+" euro";
         return saldoS;
+    }
+
+    public void verhoogSaldo(int extra){
+        portemonee.voegGeldToe(extra);
+    }
+
+    public void plaatsArtikel(Artikel a){
+        geplaatsteArtikels.add(a);
     }
 
     @Override

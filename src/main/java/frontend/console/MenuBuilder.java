@@ -106,4 +106,17 @@ public class MenuBuilder {
         line.append(System.lineSeparator());
         return  line.toString();
     }
+
+    public String toonTwoColumns(String[] col1, String[] col2, String colSep){
+        StringBuilder out = new StringBuilder("");
+        String FORMATTER = "%1$-37s   %2$-29s ";
+        int stop = col1.length;
+        if(col1.length > col2.length){
+            stop = col2.length;
+        }
+        for(int i = 0; i< stop; i++){
+            out.append(String.format(FORMATTER,col1[i]+colSep,col2[i])).append(System.lineSeparator());
+        }
+        return out.toString();
+    }
 }

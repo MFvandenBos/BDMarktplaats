@@ -18,11 +18,11 @@ public class Bezoeker extends Gebruiker {
 
     public Bezoeker(String email, boolean thuisAfhalen, boolean magazijnAfhalen, boolean versturen, boolean versturenRembours, Address adres) throws InvalidEmailException {
         super(email);
-        this. versturenRembours = versturenRembours;
+        this.versturenRembours = versturenRembours;
         this.versturen = versturen;
         this.magazijnAfhalen = magazijnAfhalen;
         this.adres = adres;
-        if(adres == null){
+        if(adres.isOnbekend()){
             this.thuisAfhalen = false;
         }else{
             this.thuisAfhalen = thuisAfhalen;

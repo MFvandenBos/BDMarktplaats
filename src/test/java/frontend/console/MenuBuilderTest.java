@@ -77,5 +77,19 @@ class MenuBuilderTest {
 
     }
 
+    @Test
+    void twoColumsTest(){
+        String[] col1 = new String[]{"column 1 veld 1", "column 1 veld 2"};
+        String[] col2 = new String[]{"column 2 waarde 1", "column 2 waarde 2"};
+        String result = testSubject.toonTwoColumns(col1, col2, ":");
+        StringBuilder expected = new StringBuilder("");
+        System.out.println(result);
+        expected.append("column 1 veld 1:                        column 2 waarde 1             ").append(System.lineSeparator());
+        expected.append("column 1 veld 2:                        column 2 waarde 2             ").append(System.lineSeparator());
+        System.out.println(expected.toString());
+        assertThat(result).isEqualTo(expected.toString());
+
+    }
+
 
 }

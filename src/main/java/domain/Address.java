@@ -41,10 +41,14 @@ public class Address
     @XmlElement(name = "country")
     private String country;
 
+    private boolean onbekend;
 
-    public Address(){}
+    public Address(){
+        onbekend = true;
+    }
 
     public Address(String Street, int HouseNumber, String PostalCode, String City){
+        onbekend = false;
         this.street = Street;
         this.houseNumber = HouseNumber;
         this.postalCode = PostalCode;
@@ -57,6 +61,7 @@ public class Address
 
     public void setStreet(String street) {
         this.street = street;
+        onbekend = false;
     }
 
     public int getHouseNumber() {
@@ -65,6 +70,7 @@ public class Address
 
     public void setHouseNumber(int houseNumber) {
         this.houseNumber = houseNumber;
+        onbekend = false;
     }
 
     public String getPostalCode() {
@@ -73,6 +79,7 @@ public class Address
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+        onbekend = false;
     }
 
     public String getCity() {
@@ -81,6 +88,7 @@ public class Address
 
     public void setCity(String city) {
         this.city = city;
+        onbekend = false;
     }
 
     public String getCountry() {
@@ -89,6 +97,7 @@ public class Address
 
     public void setCountry(String country) {
         this.country = country;
+        onbekend = false;
     }
 
     public String outputAdress()
@@ -101,5 +110,21 @@ public class Address
         return output.toString();
     }
 
+    @Override
+    public String toString() {
+        if(onbekend){return "onbekend";}
+        else{
+        return "Address{" +
+                "street='" + street + '\'' +
+                ", houseNumber=" + houseNumber +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+        }
+    }
 
+    public boolean isOnbekend() {
+        return onbekend;
+    }
 }

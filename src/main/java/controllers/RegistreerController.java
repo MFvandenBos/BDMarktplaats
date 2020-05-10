@@ -80,6 +80,7 @@ public class RegistreerController extends AbstractController{
             System.out.println(ex.getMessage());
             System.out.println("Er bestaat al een account met email: " + email);
             System.out.println("probeer opnieuw: ");
+            //throw ex;
             load();
         }
         throw new RuntimeException("This should never happen, something is wrong!");

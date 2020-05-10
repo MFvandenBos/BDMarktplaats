@@ -16,7 +16,8 @@ public class MainController {
     //static block initialization for exception handling
     static{
         try{
-            instance = new MainController();
+            System.out.println("Singleton is made");
+            instance = new MainController("made");
         }catch(Exception e){
             throw new RuntimeException("Exception occurred in creating singleton instance");
         }
@@ -30,6 +31,16 @@ public class MainController {
     }
 
     private MainController(){
+        System.out.println("The MainController has been eaten by the GC monster");
+        try {
+            this.em = mysql();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        scanner = new ScannerWrapper();
+    }
+
+    private MainController(String made){
         try {
             this.em = mysql();
         }catch (Exception e){

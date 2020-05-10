@@ -34,4 +34,9 @@ public class Portemonee {
     public BigDecimal getBalans() {
         return balans;
     }
+
+    public void voegGeldToe(int deposit){
+        BigDecimal extra = new BigDecimal(deposit);
+        balans = balans.add(extra);
+    }
 }
