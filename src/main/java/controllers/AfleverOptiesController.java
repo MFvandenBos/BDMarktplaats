@@ -68,7 +68,7 @@ public class AfleverOptiesController extends AbstractController {
             boolean magazijn = specialView.vraagGebruikerInputBoolean("Dat betekent dat u door u verkochte artikelen naar het magazijn moet brengen");
             bezoeker.setMagazijnAfhalen(magazijn);
         }else{
-            specialView.toon("Omdat er geen andere bezorg opties zijn geselecteerd is magzijn ophalen standaard aan",
+            specialView.toon("Omdat er geen andere bezorg opties zijn geselecteerd is \"magzijn ophalen\" standaard aan",
                     "dit is alleen van belang als u artikelen gaat aanbieden");
             bezoeker.setMagazijnAfhalen(true);
         }

@@ -8,10 +8,12 @@ import frontend.console.exceptions.NotANumberException;
 public class HoofdMenuNietIngelogdController extends AbstractController{
 
     //Warning: order of strings is hardcoded in 'functionSwitch'
-    String[] functionList = new String[]{"login","registreer nieuwe gebruiker", "exit"};
+    String[] functionList = new String[]{"login","registreer nieuwe gebruiker", "toggle Jpassword","exit"};
+    MainController mc;
 
     public HoofdMenuNietIngelogdController(){
         super.currentView = new StandaardMenu();
+        mc = MainController.getInstance();
     }
 
     @Override
@@ -57,6 +59,13 @@ public class HoofdMenuNietIngelogdController extends AbstractController{
                 RegistreerController registreerController = new RegistreerController(GebruikerType.BEZOEKER, this);
                 registreerController.load(); break;
             case 3:
+                if(mc.isUseJPassword()){
+                    mc.setUseJPassword(false);
+                }else{
+                    mc.setUseJPassword(true);
+                }
+                load(); break;
+            case 4:
                 exitProgram();
                 load(); break;
             default:

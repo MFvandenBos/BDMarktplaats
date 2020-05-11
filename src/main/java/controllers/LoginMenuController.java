@@ -3,12 +3,9 @@ package controllers;
 import dao.GebruikerDao;
 import dao.exceptions.GebruikerNotFoundException;
 import domain.Gebruiker;
-import frontend.console.AbstractMenu;
 import frontend.console.RegistreerDialog;
 import frontend.swing.Jpassword;
-
 import javax.persistence.EntityManager;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -60,9 +57,18 @@ public class LoginMenuController extends AbstractController implements ActionLis
         if(mc.isUseJPassword()){
             jpassword = Jpassword.createAndShowGUIPassword(gebruiker.getEmailAdress(),this);
         }else{
-
+            boolean incorrect = true;
+            while(incorrect){
+                String password = askPassword();
+                if(gebruiker.verifyPassword(password)){
+                    forward.load(gebruiker);
+                    incorrect = false;
+                }else{
+                    currentView.toon("Incorrect wachtwoord");
+                    incorrect = true;
+                }
+            }
         }
-
     }
 
     private String askEmail(){
@@ -76,6 +82,10 @@ public class LoginMenuController extends AbstractController implements ActionLis
             }
         }
         return email;
+    }
+
+    private String askPassword(){
+        return currentView.vraagGebruikerInputString("Wat is je wachtwoord? ");
     }
 
     private void terug() {

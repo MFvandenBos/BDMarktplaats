@@ -8,7 +8,7 @@ import static util.Util.mysql;
 
 public class MainController {
 
-    private boolean useJPassword = true;
+    private boolean useJPassword = false;
     private static MainController instance;
     private EntityManager em;
     private ScannerWrapper scanner;
@@ -68,6 +68,10 @@ public class MainController {
 
     public boolean isUseJPassword() {
         return useJPassword;
+    }
+
+    public void setUseJPassword(boolean useJPassword) {
+        this.useJPassword = useJPassword;
     }
 }
 

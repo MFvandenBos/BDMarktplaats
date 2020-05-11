@@ -86,6 +86,7 @@ public class HoofdMenuIngelogdController extends AbstractController {
             case 7: overzichtGegevens();
                     load(ingelogdeGebruiker); break;
             case 8: logUit(); break;
+            case 41: throw new RuntimeException("test exit!");
             default:
                 String header = "Optie "+fun+ " bestaat niet in dit menu, kies een van de volgende opties:";
                 loadWithHeader(header);
@@ -131,9 +132,9 @@ public class HoofdMenuIngelogdController extends AbstractController {
         if(ingelogdeGebruiker instanceof Bezoeker){
             Bezoeker bezoeker = (Bezoeker)ingelogdeGebruiker;
             gegevens[4] =(bezoeker.isMagazijnAfhalen()) ? "Ja" : "nee";
-            gegevens[5] =(bezoeker.isMagazijnAfhalen()) ? "Ja" : "nee";
-            gegevens[6] =(bezoeker.isMagazijnAfhalen()) ? "Ja" : "nee";
-            gegevens[7] =(bezoeker.isMagazijnAfhalen()) ? "Ja" : "nee";
+            gegevens[5] =(bezoeker.isThuisAfhalen()) ? "Ja" : "nee";
+            gegevens[6] =(bezoeker.isVersturen()) ? "Ja" : "nee";
+            gegevens[7] =(bezoeker.isVersturenRembours()) ? "Ja" : "nee";
         }else {
             String[] gegevens2 = new String[4];
             System.arraycopy(gegevens, 0, gegevens2, 0, 4);
